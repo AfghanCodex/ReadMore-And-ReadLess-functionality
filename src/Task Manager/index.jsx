@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="container">
       <Forms tasks={tasks} setTasks={setTasks} />
-      <ViewTasks tasks={tasks} />
+      <ViewTasks tasks={tasks} setTasks={setTasks} />
     </div>
   );
 }
@@ -22,6 +22,7 @@ function Forms({ tasks, setTasks }) {
     if (!inputValue || !dateValue) return;
 
     const newTask = {
+      id: Math.random(),
       text: inputValue,
       date: dateValue,
     };
@@ -54,22 +55,35 @@ function Forms({ tasks, setTasks }) {
   );
 }
 
-function ViewTasks({ tasks }) {
+function ViewTasks({ tasks, setTasks }) {
   return (
     <div className="view-tasks">
       {tasks.map((TASKSS) => (
-        <Task task={TASKSS.text} data={TASKSS.date} key={Math.random()} />
+        <Task
+          task={TASKSS.text}
+          data={TASKSS.date}
+          id={TASKSS.id}
+          tasks={tasks}
+          setTasks={setTasks}
+          key={Math.random()}
+        />
       ))}
     </div>
   );
 }
 
-function Task({ task, data }) {
+function Task({ task, data, id, setTasks, tasks }) {
+  function handleDelete(id) {
+    setTasks(tasks.filter((tas) => tas.id !== id));
+  }
+
   return (
     <div className="task">
       <span className="task-text">{task}</span>
       <span className="task-date"> {data} </span>
-      <button className="delete-btn">Delete</button>
+      <button className="delete-btn" onClick={() => handleDelete(id)}>
+        Delete
+      </button>
     </div>
   );
 }
