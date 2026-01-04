@@ -17,7 +17,7 @@ const textStyle = {
 
 const StarRating = ({ rating = 5 }) => {
   const [State_Rate, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
 
   function handleRate(i) {
     setRating(i + 1);
@@ -31,18 +31,20 @@ const StarRating = ({ rating = 5 }) => {
             <Star
               key={i}
               OnRate={() => handleRate(i)}
-              full={State_Rate >= i + 1}
+              full={tempRating ? tempRating >= i + 1 : State_Rate >= i + 1}
+              onMouseIn={() => setTempRating(i + 1)}
+              onMouseOut={() => setTempRating(0)}
             />
           </span>
         ))}
       </div>
 
-      <p style={textStyle}>{State_Rate}</p>
+      <p style={textStyle}>{tempRating || State_Rate || ""}</p>
     </div>
   );
 };
 
-function Star({ OnRate, full }) {
+function Star({ OnRate, full, onMouseIn, onMouseOut }) {
   const Stars = {
     width: "48px",
     height: "48px",
@@ -51,7 +53,12 @@ function Star({ OnRate, full }) {
   };
 
   return (
-    <span style={Stars} onClick={OnRate}>
+    <span
+      style={Stars}
+      onClick={OnRate}
+      onMouseEnter={onMouseIn}
+      onMouseLeave={onMouseOut}
+    >
       {full ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
