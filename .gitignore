@@ -2,12 +2,15 @@
 
 /src/App.js
 /src/index.js
+
 /src/reportWebVitals.js
 /src/index.css
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+
+/src/Task Manager 
 
 # testing
 /coverage
